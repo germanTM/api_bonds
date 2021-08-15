@@ -3,7 +3,7 @@ clean:##clean project temp data
 	find . -type f -name '*.log' -delete
 
 install:##install dependencies requirements
-	pip3 install -r requirements.txt
+	pip install -r requirements.txt
 
 run:## run the docker container
 	docker run --publish 7000:5000 apibonds
