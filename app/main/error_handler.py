@@ -1,4 +1,4 @@
-class InvalidUserData(Exception):
+class RaiseCustomException(Exception):
     status_code = 400
 
     def __init__(self, message, status_code=None, payload=None):

@@ -1,7 +1,7 @@
 from flask import request, abort
 from ..util.dto import UserDto
 from flask_restplus import Resource, api, fields
-from ..error_handler import InvalidUserData
+from ..error_handler import RaiseCustomException
 from ..model.user_model import signup_user, login_user, token_required, get_all_users
 from ... import limiter
 
@@ -27,7 +27,7 @@ class BondPublications(Resource):
         """Login"""
         try:
             return login_user(request.authorization)
-        except InvalidUserData as e:
+        except RaiseCustomException as e:
             abort(e.status_code, e.message)
 
 @api.route("/register")
