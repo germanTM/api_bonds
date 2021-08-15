@@ -1,7 +1,16 @@
 from flask_restplus import Api
-from flask import Blueprint
+from flask import Blueprint, Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+app = Flask(__name__)
+
+db = SQLAlchemy(app)
 
 blueprint = Blueprint('api', __name__)
+
+limiter = Limiter(app, key_func=get_remote_address, default_limits=["1000 per minute"])
 
 api = Api(blueprint,
           title='FLASK EXCHANGE TRANSACTIONS API',

@@ -3,6 +3,7 @@ from ..util.dto import BondDto
 from flask_restplus import Resource, api, fields
 from ...main.model.user_model import token_required
 from ...main.model.bond_model import publish_bond, list_bonds, buy_bond, list_bonds_with_converted_price
+from ... import limiter
 
 api = BondDto.api
 
@@ -22,6 +23,7 @@ class BondPublications(Resource):
     @api.response(201, 'Bonds were correctly published', publish_bond_response_fields)
     @api.doc('Publish bond')
     @api.expect(publish_bond_request_fields)
+    @limiter.limit("1000/minute")
     def post(self):
         """Publish bond"""
         try:
@@ -41,6 +43,7 @@ class BondList(Resource):
     @token_required
     @api.response(201, 'Request proccessed successfully', list_bonds_response_fields)
     @api.doc('List all bonds')
+    @limiter.limit("1000/minute")
     def get(self):
         """List all bonds"""
         try:
@@ -60,6 +63,7 @@ class BondListsDiverseCurrencies(Resource):
     @token_required
     @api.response(201, 'Request proccessed successfully', list_bonds_response_fields)
     @api.doc('List all bonds based on a certain currency')
+    @limiter.limit("1000/minute")
     def get(self, currency):
         """List all bonds based on a certain currency"""
         try:
@@ -82,6 +86,7 @@ class BondSales(Resource):
     @api.response(201, 'Request proccessed successfully', buy_bond_response_fields)
     @api.doc('Buy bonds')
     @api.expect(buy_bond_request_fields)
+    @limiter.limit("1000/minute")
     def post(self):
         """Buy bonds"""
         try:

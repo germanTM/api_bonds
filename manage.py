@@ -1,5 +1,6 @@
-from app.main import app
+from app import app
 from app import blueprint
+
 
 app.register_blueprint(blueprint)
 app.app_context().push()

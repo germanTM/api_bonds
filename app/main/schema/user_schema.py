@@ -1,4 +1,4 @@
-from ...main import db
+from ... import db
 
 class Users(db.Model):
     __table_args__ = {'extend_existing': True}

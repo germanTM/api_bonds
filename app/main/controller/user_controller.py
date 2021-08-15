@@ -3,6 +3,7 @@ from ..util.dto import UserDto
 from flask_restplus import Resource, api, fields
 from ..error_handler import InvalidUserData
 from ..model.user_model import signup_user, login_user, token_required, get_all_users
+from ... import limiter
 
 api = UserDto.api
 
@@ -21,6 +22,7 @@ class BondPublications(Resource):
     @api.response(201, 'Success processing the request', login_response_fields)
     @api.doc('Login')
     @api.expect(login_request_fields)
+    @limiter.limit("1000/minute")
     def post(self):
         """Login"""
         try:
@@ -42,6 +44,7 @@ class UserRegistration(Resource):
     @api.response(201, 'Success processing the request', register_response_fields)
     @api.doc('Register user')
     @api.expect(register_request_fields)
+    @limiter.limit("1000/minute")
     def post(self):
         """register user"""
         try:
@@ -61,6 +64,7 @@ class UserList(Resource):
 
     @api.response(201, 'Success processing the request', user_list_response_fields)
     @api.doc('List users')
+    @limiter.limit("1000/minute")
     @token_required
     def get(self):
         """user_list"""

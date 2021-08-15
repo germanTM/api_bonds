@@ -7,7 +7,7 @@ from ...main.schema.user_schema import Users
 from ..error_handler import InvalidUserData
 import jwt
 import uuid
-from ...main import app, db
+from ... import app, db
 import datetime
 
 def token_required(f):

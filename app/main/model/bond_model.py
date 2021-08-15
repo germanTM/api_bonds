@@ -1,6 +1,6 @@
 from ...main.schema.bond_schema import Bonds
 from ...main.service.bond_service import get_mxn_usd_currency_exchange
-from ...main import db
+from ... import db
 from ..error_handler import InvalidUserData
 import uuid
 
@@ -13,10 +13,11 @@ def publish_bond(self, bond_data):
 
     if int(bond_data['price']) not in range(0,100000000):
         raise InvalidUserData('Total price must be a value between 0 and 100000000', 400)
-    
+    test = "{:.4f}".format(bond_data['price'])
+    print(test)
     new_bond = Bonds(name=bond_data['name'], 
                     number=bond_data['number'], 
-                    price=bond_data['price'], 
+                    price="{:.4f}".format(bond_data['price']), 
                     code=str(uuid.uuid4()),
                     seller=self.public_id
                 )
