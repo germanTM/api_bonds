@@ -44,7 +44,7 @@ def buy_bond(self, request):
     bond_for_sale = Bonds.query.filter_by(code=request['bond_code']).first()
     if bond_for_sale:
         """Verify that the bonds are not linket to a buyer and that the user is not the owner of the bond"""
-        if bond_for_sale.buyer == None and bond_for_sale.owner != self.public_id:
+        if bond_for_sale.buyer == None and bond_for_sale.seller != self.public_id:
             bond_for_sale.buyer = self.public_id
             db.session.commit()
             return {'message': 'Request proccessed successfully'}, 201
@@ -67,7 +67,7 @@ def list_bonds_with_converted_price(currency):
             bond_data = {}
             bond_data['name'] = bond.name
             bond_data['number'] = bond.number
-            bond_data['price'] = bond.price * float(requested_currency_value)
+            bond_data['price'] = bond.price / float(requested_currency_value)
             bond_data['code'] = bond.code
             result.append(bond_data)
         return { 'message': 'Request proccessed successfully', 'bonds': result }, 201   
@@ -78,7 +78,8 @@ def list_bonds_with_converted_price(currency):
 def get_mxn_to_usd_exchange_value():
     currency_value = 0
     usd_currency_data = get_mxn_usd_currency_exchange()
-    if usd_currency_data['error']:
+    usd_currency = usd_currency_data.get('error', False)
+    if usd_currency:
         raise RaiseCustomException('Banxico responded with the following error: '+ usd_currency_data['error']['mensaje'], 400)
     currency_value = usd_currency_data['bmx']['series'][0]['datos'][0]['dato']
     if currency_value:

@@ -2,7 +2,7 @@ import requests
 
 """"Connect to Banxico api to get the current exchange rate of MXN based on the USD currency"""""
 def get_mxn_usd_currency_exchange():
-    token = "cdd13fea7fa8ad76d0cf6d4530222848d56c6f7980e5a23b43dd29948dc5b3"
+    token = "1cf29c237de7592c7fe8eaa2db02fbf2073cecaf738b3bdd82d34c55bed0cb48"
     parameters = {
         'token': token
     }

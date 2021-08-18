@@ -49,7 +49,6 @@ class BondList(Resource):
         try:
             return list_bonds()
         except Exception as e:
-            print(e)
             abort(e.status_code, e.message)
 
 @api.route("/listBonds/<currency>")
